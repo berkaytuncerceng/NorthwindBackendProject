@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class Category : IEntity
+    public class UserForLoginDto : IDto
     {
-        public int CategoryID { get; set; }
-        public string CategoryName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

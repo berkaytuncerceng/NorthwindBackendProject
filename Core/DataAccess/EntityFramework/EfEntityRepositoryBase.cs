@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core.Entitites;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Core.DataAccess.EntityFramework
