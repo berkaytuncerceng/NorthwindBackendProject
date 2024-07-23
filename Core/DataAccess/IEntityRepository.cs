@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Core.Entities.Abstract;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Core.Entitites;
+using Core.Entities;
 
 namespace Core.DataAccess
 {
