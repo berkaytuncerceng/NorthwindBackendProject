@@ -18,7 +18,7 @@ namespace Business.Concrete
         public IResult Add(Product product)
         {
             _productDal.Add(product);
-            return new SucceededResult(Messages.ProductAdded) ;
+            return new SucceededResult(Messages.ProductAdded);
         }
         public IResult Update(Product product)
         {
@@ -34,7 +34,7 @@ namespace Business.Concrete
 
         public IDataResult<Product> GetById(int id)
         {
-            return new SucceededDataResult<Product>(_productDal.Get(p => p.ProductId == id)); 
+            return new SucceededDataResult<Product>(_productDal.Get(p => p.ProductId == id));
         }
 
         public IDataResult<List<Product>> GetList()
@@ -44,9 +44,9 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetListByCategory(int categoryId)
         {
-            return new SucceededDataResult<List<Product>>( _productDal.GetList(p => p.CategoryId == categoryId).ToList());
+            return new SucceededDataResult<List<Product>>(_productDal.GetList(p => p.CategoryId == categoryId).ToList());
         }
 
-        
+
     }
 }
