@@ -1,7 +1,8 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
 
 namespace webAPI.Controllers
 {
@@ -15,7 +16,9 @@ namespace webAPI.Controllers
             _productService = productService;
         }
 
+     
         [HttpGet("getall")]
+        [Authorize(Roles = "Product.List")]
         public IActionResult GetList()
         {
             var result = _productService.GetList();
@@ -47,7 +50,7 @@ namespace webAPI.Controllers
         }
         [HttpPost("add")]
         public IActionResult Add(Product product)
-        { 
+        {
             var result = _productService.Add(product);
             if (result.Succeeded)
             {

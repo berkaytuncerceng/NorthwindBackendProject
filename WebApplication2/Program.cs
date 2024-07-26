@@ -1,26 +1,41 @@
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
+using Core.Utilities.Security.Encryption;
+using Core.Utilities.Security.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// Use Autofac as the service provider factory
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-
-// Configure Autofac container
-builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule()));
+builder.Services.AddCors(p => p.AddPolicy("AllowOrigin", builder =>
 {
-    containerBuilder.RegisterModule(new AutofacBusinessModule());
-});
+    builder.WithOrigins("https://localhost:7085").AllowAnyMethod().AllowAnyHeader(); // yıldızlar yerine kendi localhost adresinizi girin örnek: "https://localhost:1111"
+}));
+var Configuration = builder.Configuration;
+var tokenOptions = Configuration.GetSection(key: "TokenOptions").Get<TokenOptions>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = tokenOptions.Issuer,
+                        ValidAudience = tokenOptions.Audience,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+                    };
+                });
+
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -28,7 +43,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowOrigin");
+
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();

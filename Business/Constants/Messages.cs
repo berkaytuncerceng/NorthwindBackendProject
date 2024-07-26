@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,12 @@ namespace Business.Constants
         public static string CategoryAdded = "The category has added successfully";
         public static string CategoryUpdated = "The category has updated successfully";
         public static string CategoryDeleted = "The category has deleted successfully";
+        public static string UserNotFound = "The user couldnt be found";
+
+        public static string PasswordError = "Password is NOT right.";
+        public static string UserFound = "This user already exists.";
+        public static string UserRegistered = "Registration is successful";
+        public static string AccessTokenCreated = "Access Token Created";
+
     }
 }

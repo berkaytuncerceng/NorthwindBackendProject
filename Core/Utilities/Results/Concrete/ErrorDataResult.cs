@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Utilities.Results.Concrete;
 
-namespace Core.Utilities.Results.Concrete
+public class ErrorDataResult<T> : DataResult<T>
 {
-    public class ErrorDataResult<T> : DataResult<T>
+    public ErrorDataResult(T data, bool succeeded, string message) : base(data, false, message)
     {
-        public ErrorDataResult(T data, bool succeeded, string message) : base(data, false, message)
-        {
 
-        }
-        public ErrorDataResult(T data, bool succeeded) : base(data, false)
-        {
+    }
+    public ErrorDataResult(T data, bool succeeded) : base(data, false)
+    {
 
-        }
+    }
+    // Yeni yapıcı: sadece hata mesajı ile
+    public ErrorDataResult(string message) : base(default(T), false, message)
+    {
+
     }
 }
